@@ -2,6 +2,7 @@ package notification.push.com.smartschool.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -41,6 +42,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //views intiliztion
         InitView();
         input_validation();
@@ -123,6 +125,12 @@ public class LogInActivity extends AppCompatActivity {
         if (password.getText().toString().trim().equalsIgnoreCase("")) {
             password.setError("This field can not be blank!");
         }
+
+        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.putExtra("profile",(Serializable) logIn.getStudent().get(0));
+        startActivity(intent);
+        finish();
 /*
         if(reg_no.getText().toString().contains(Constants.REG_NO)  && password.getText().toString().contains(Constants.PSSWORD)){
             indicate.setVisibility(View.GONE);
@@ -139,7 +147,7 @@ public class LogInActivity extends AppCompatActivity {
         */
 
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        /*final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging In.....");
         progressDialog.show();
         RetrofitInterface retrofitInterface = RetrofitClient.getRetrofit().create(RetrofitInterface.class);
@@ -154,8 +162,12 @@ public class LogInActivity extends AppCompatActivity {
 
                         indicate.setVisibility(View.GONE);
                         stroage.SaveLogInSate(true);
+                        stroage.SaveStudentPhoto(logIn.getStudent_photo());
+                        stroage.SavePassword(logIn.getPassword());
+                        //Log.d("from_server",logIn.getStudent_photo());
                         stroage.SaveUserRegNo(logIn.getReg_no());
                         stroage.SaveCurrentUSer(logIn.getStudent().get(0).getStudent_name());
+
                         Intent intent = new Intent(getApplicationContext(), Dashboard.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         //intent.putExtra("profile",(Serializable) logIn.getStudent().get(0));
@@ -178,7 +190,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onFailure(Call<LogIn> call, Throwable t) {
                 Log.d("networkError",t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override
